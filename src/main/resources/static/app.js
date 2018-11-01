@@ -41,6 +41,7 @@ var app = (function () {
             
             stompClient.subscribe('/topic/newpoint'+topic, function (eventbody) {
                 var theObject=JSON.parse(eventbody.body);
+                alert(getMousePosition('').x+getMousePosition('').y);
                 //alert("Nuevo punto: "+theObject.x+" "+theObject.y);
                 addPointToCanvas(new Point(theObject.x,theObject.y));
             });
