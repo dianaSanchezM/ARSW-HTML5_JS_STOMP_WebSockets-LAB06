@@ -41,7 +41,6 @@ var app = (function () {
             
             stompClient.subscribe('/topic/newpoint'+topic, function (eventbody) {
                 var theObject=JSON.parse(eventbody.body);
-                alert(getMousePosition('').x+getMousePosition('').y);
                 //alert("Nuevo punto: "+theObject.x+" "+theObject.y);
                 addPointToCanvas(new Point(theObject.x,theObject.y));
             });
@@ -53,7 +52,7 @@ var app = (function () {
     return {
 
         init: function () {
-            
+            var can = document.getElementById("canvas");
             //websocket connection
             connectAndSubscribe('');
         },
@@ -67,9 +66,19 @@ var app = (function () {
         },
         
         connectSpecificTopic: function (){
+            var can = document.getElementById("canvas");
+            can.width=window.innerWidth;
+            can.height=window.innerHeight;
             var topic = document.getElementById("identificador").value;
-            //websocket connection
             connectAndSubscribe("."+topic);
+            canvas.addEventListener('click',function(evt){
+                var pos = getMousePosition(evt);
+                var punto=new Point(pos.x,pos.y);
+                addPointToCanvas(punto);
+                stompClient.send("/topic/newpoint."+topic, {}, JSON.stringify(punto)); 
+            },false);
+            //websocket connection
+            
         },
 
         disconnect: function () {
