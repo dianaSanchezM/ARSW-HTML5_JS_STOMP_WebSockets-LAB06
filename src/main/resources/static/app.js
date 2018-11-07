@@ -8,6 +8,7 @@ var app = (function () {
     }
     
     var stompClient = null;
+    var dibujo=0;
 
     var addPointToCanvas = function (point) {   
         
@@ -16,6 +17,8 @@ var app = (function () {
         ctx.beginPath();
         ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
         ctx.stroke();
+        //var topic = document.getElementById("identificador").value;
+        
     };
     
     
@@ -61,7 +64,7 @@ var app = (function () {
             var pt=new Point(px,py);
             var topic = document.getElementById("identificador").value;
             console.info("publishing point at "+topic);
-            stompClient.send("/topic/newpoint."+topic, {}, JSON.stringify(pt)); 
+            addPointToCanvas(pt); 
             //publicar el evento
         },
         
@@ -69,15 +72,15 @@ var app = (function () {
             var can = document.getElementById("canvas");
             can.width=window.innerWidth;
             can.height=window.innerHeight;
-            var topic = document.getElementById("identificador").value;
-            connectAndSubscribe("."+topic);
+            dibujo= document.getElementById("identificador").value;
+            connectAndSubscribe("."+dibujo);
             canvas.addEventListener('click',function(evt){
                 var pos = getMousePosition(evt);
-                var punto=new Point(pos.x,pos.y);
-                addPointToCanvas(punto);
-                stompClient.send("/topic/newpoint."+topic, {}, JSON.stringify(punto)); 
+                //addPointToCanvas(pos);
+                stompClient.send("/app/newpoint."+dibujo, {}, JSON.stringify(pos)); 
+                
             },false);
-            //websocket connection
+            //websocket connectionvar topic = document.getElementById("identificador").value;
             
         },
 
