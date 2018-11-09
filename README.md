@@ -1,4 +1,5 @@
 ### Escuela Colombiana de Ingeniería
+### Diana Lorena Sanchez Moreno
 ### Arquitecturas de Software - ARSW
 ### Laboratorio - Broker de Mensajes STOMP con WebSockets + HTML5 Canvas.
 
