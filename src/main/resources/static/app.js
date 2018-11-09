@@ -63,7 +63,7 @@ var app = (function () {
             });
             stompClient.subscribe('/topic/newpolygon'+topic, function (eventbody) {
                 var theObject=JSON.parse(eventbody.body);
-                alert("Nuevo polygon: "+theObject[3].x+" "+theObject[3].y);
+                //alert("Nuevo polygon: "+theObject[3].x+" "+theObject[3].y);
                 addPolygonToCanvas(theObject);
             });
         });
